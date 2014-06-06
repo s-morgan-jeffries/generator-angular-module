@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('<%= moduleName %>')
+angular.module('<%= _.camelize(moduleName) %>')
   .factory('awesomeThingsService', function () {
     var awesomeThingsList = [
       {

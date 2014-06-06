@@ -4,13 +4,14 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
+var _ = require('lodash');
+_.mixin(require('underscore.string').exports());
 var pd = require(path.resolve(__dirname, '../lib/processDirectory.js'));
 
 var AngularModuleGenerator = yeoman.generators.Base.extend({
   init: function () {
     this.pkg = require('../package.json');
-    this.appName = path.basename(process.cwd());
-    this.moduleName = path.basename(process.cwd());
+//    this.moduleName = _.slugify(_.humanize(path.basename(process.cwd())));
 
     this.on('end', function () {
       if (!this.options['skip-install']) {
@@ -24,17 +25,33 @@ var AngularModuleGenerator = yeoman.generators.Base.extend({
 
     // Have Yeoman greet the user.
     this.log(yosay('Welcome to the marvelous AngularModule generator!'));
+    var moduleName = _.slugify(_.humanize(path.basename(process.cwd())));
 
-    var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+    var prompts = [
+//      {
+//        type: 'confirm',
+//        name: 'someOption',
+//        message: 'Would you like to enable this option?',
+//        default: true
+//      }
+      {
+        type: 'input',
+        name: 'moduleName',
+        message: 'What is the name of your module?',
+        default: moduleName
+      }
+      ,
+      {
+        type: 'input',
+        name: 'gitHubUsername',
+        message: 'What is your GitHub username (used to set the repository in package.json)?',
+        default: ''
+      }
+    ];
 
     this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
-
+      this.moduleName = props.moduleName;
+      this.gitHubUsername = props.gitHubUsername;
       done();
     }.bind(this));
   },

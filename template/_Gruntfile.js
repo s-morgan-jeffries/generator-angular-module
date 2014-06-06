@@ -23,8 +23,8 @@ module.exports = function (grunt) {
       // configurable paths
       devApp: 'dev_app',
       src: 'src',
-      builtModule: 'awesomethings.js',
-      minifiedModule: 'awesomethings.min.js'
+      builtModule: '<%= moduleName %>.js',
+      minifiedModule: '<%= moduleName %>.min.js'
     },
 
     bump: {

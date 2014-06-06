@@ -1,4 +1,4 @@
 'use strict';
 
 angular
-  .module('devApp', ['<%= moduleName %>']);
+  .module('devApp', ['<%= _.camelize(moduleName) %>']);

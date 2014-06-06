@@ -1,7 +1,7 @@
 {
-  "name": "<%= _.slugify(_.humanize(appName)) %>",
+  "name": "<%= moduleName %>",
   "version": "0.0.0",
-  "main": "",
+  "main": "./<%= moduleName %>.js",
   "dependencies": {
     "angular": "1.2.15"
   },

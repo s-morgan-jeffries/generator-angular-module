@@ -1,9 +1,9 @@
 {
-  "name": "<%= _.slugify(_.humanize(appName)) %>",
+  "name": "<%= moduleName %>",
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/<%= gitHubUsername %>/<%= moduleName %>.git"
   },
   "dependencies": {},
   "devDependencies": {
