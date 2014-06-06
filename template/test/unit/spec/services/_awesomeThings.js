@@ -3,7 +3,7 @@
 describe('Factory: awesomeThingsService', function () {
 
   // load the service's module
-  beforeEach(module('<%= moduleName %>'));
+  beforeEach(module('<%= _.camelize(moduleName) %>'));
 
   // instantiate service
   var _awesomeThingsService;
