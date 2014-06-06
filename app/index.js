@@ -4,11 +4,13 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
-
+var pd = require(path.resolve(__dirname, '../lib/processDirectory.js'));
 
 var AngularModuleGenerator = yeoman.generators.Base.extend({
   init: function () {
     this.pkg = require('../package.json');
+    this.appName = path.basename(process.cwd());
+    this.moduleName = path.basename(process.cwd());
 
     this.on('end', function () {
       if (!this.options['skip-install']) {
@@ -38,16 +40,21 @@ var AngularModuleGenerator = yeoman.generators.Base.extend({
   },
 
   app: function () {
-    this.mkdir('app');
-    this.mkdir('app/templates');
-
-    this.copy('_package.json', 'package.json');
-    this.copy('_bower.json', 'bower.json');
+    var generatorRootDir = path.resolve(__dirname, '..');
+    var templateDir = path.join(generatorRootDir, '/template');
+    var yoTemplateDir = path.join(generatorRootDir, 'app/template');
+    var self = this;
+    var processDirectory = pd.processDirFactory({
+      topLevelDir: templateDir,
+      yoTemplateDir: yoTemplateDir,
+      copyFx: self.copy.bind(self),
+      templateFx: self.template.bind(self),
+      mkdirFx: self.mkdir.bind(self)
+    });
+    processDirectory(templateDir);
   },
 
   projectfiles: function () {
-    this.copy('editorconfig', '.editorconfig');
-    this.copy('jshintrc', '.jshintrc');
   }
 });
 
