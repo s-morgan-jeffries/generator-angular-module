@@ -131,6 +131,12 @@ module.exports = function (grunt) {
           'src/**/*.js'
         ]
       },
+      e2eTests: {
+        options: {
+          jshintrc: 'test/e2e/.jshintrc'
+        },
+        src: ['test/e2e/spec/{,*/}*.js']
+      },
       integrationTests: {
         options: {
           jshintrc: 'test/integration/.jshintrc'
@@ -147,12 +153,20 @@ module.exports = function (grunt) {
 
     // Test settings
     karma: {
-      CI: {
+      unitCI: {
         configFile: 'test/unit/karma.ci.conf.js',
         singleRun: true
       },
-      build: {
+      unitBuild: {
         configFile: 'test/unit/karma.build.conf.js',
+        singleRun: true
+      },
+      integrationCI: {
+        configFile: 'test/integration/karma.ci.conf.js',
+        singleRun: true
+      },
+      integrationBuild: {
+        configFile: 'test/integration/karma.build.conf.js',
         singleRun: true
       }
     },
@@ -180,13 +194,13 @@ module.exports = function (grunt) {
       },
       build: {
         options: {
-          configFile: 'test/integration/protractor.build.conf.js', // Target-specific config file
+          configFile: 'test/e2e/protractor.build.conf.js', // Target-specific config file
           args: {} // Target-specific arguments
         }
       },
       CI: {
         options: {
-          configFile: 'test/integration/protractor.ci.conf.js', // Target-specific config file
+          configFile: 'test/e2e/protractor.ci.conf.js', // Target-specific config file
           args: {} // Target-specific arguments
         }
       }
@@ -211,7 +225,7 @@ module.exports = function (grunt) {
         files: ['Gruntfile.js'],
         tasks: ['jshint:gruntfile']
       },
-      js: {
+      scripts: {
         files: [
           '<%%= yeoman.devApp %>/scripts/{,*/}*.js',
           'src/**/*.js'
@@ -221,13 +235,17 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
-      jsIntegrationTest: {
+//      e2eTests: {
+//        files: ['test/e2e/spec/{,*/}*.js'],
+//        tasks: ['jshint:e2eTests', 'protractor:CI']
+//      },
+      integrationTests: {
         files: ['test/integration/spec/{,*/}*.js'],
-        tasks: ['jshint:integrationTests', 'protractor:CI']
+        tasks: ['jshint:integrationTests', 'karma:integrationCI']
       },
-      jsUnitTest: {
+      unitTests: {
         files: ['test/unit/spec/{,*/}*.js'],
-        tasks: ['jshint:unitTests', 'karma:CI']
+        tasks: ['jshint:unitTests', 'karma:unitCI']
       },
       livereload: {
         options: {
@@ -263,35 +281,42 @@ module.exports = function (grunt) {
     grunt.task.run(['serve']);
   });
 
-  grunt.registerTask('test', function(target) {
+  grunt.registerTask('test', function (target) {
     var setUpTasks = [
         'clean:server',
         'connect:test'
       ],
       unitTasks = [
-        'karma:build'
+        'karma:unitBuild'
       ],
       integrationTasks = [
-        'protractor:build'
+        'karma:integrationBuild'
       ],
+//      e2eTasks = [
+//        'protractor:build'
+//      ],
       tasks;
     if (target === 'unit') {
       tasks = setUpTasks.concat(unitTasks);
     } else if (target === 'integration') {
       tasks = setUpTasks.concat(integrationTasks);
+//    } else if (target === 'e2e') {
+//      tasks = setUpTasks.concat(e2eTasks);
     } else {
+//      tasks = setUpTasks.concat(unitTasks).concat(integrationTasks).concat(e2eTasks);
       tasks = setUpTasks.concat(unitTasks).concat(integrationTasks);
     }
 
     grunt.task.run(tasks);
   });
 
-  grunt.registerTask('build', function(target) {
+  grunt.registerTask('build', function (target) {
     var testTasks = [
         'jshint:gruntfile',
         'jshint:scripts',
         'jshint:unitTests',
         'jshint:integrationTests',
+//        'jshint:e2eTests',
         'test'
       ],
       buildTasks = [

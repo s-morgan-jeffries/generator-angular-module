@@ -47,22 +47,13 @@ module.exports = function(config) {
     // - IE (only Windows)
     browsers: [
       // For single runs, PhantomJS is fastest.
-      'PhantomJS',
-      'Chrome',
-      'Safari',
-      'Firefox',
-      'Opera'
+      'PhantomJS'
     ],
 
     // Which plugins to enable
     plugins: [
-      'karma-jasmine',
       'karma-phantomjs-launcher',
-      'karma-chrome-launcher',
-      'karma-safari-launcher',
-      'karma-firefox-launcher',
-      'karma-opera-launcher',
-      'karma-junit-reporter'
+      'karma-jasmine'
     ],
 
     // Continuous Integration mode
@@ -73,13 +64,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
-
-    junitReporter: {
-      outputFile: '../reports/unit-tests.xml'
-    },
-
-    reporters: ['progress', 'junit']
+    logLevel: config.LOG_INFO
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {

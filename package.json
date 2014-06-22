@@ -33,6 +33,7 @@
     "yosay": "^0.1.0"
   },
   "devDependencies": {
+    "jasmine-expect": "^1.21.0",
     "mocha": "*",
     "underscore.string": "^2.3.3"
   },

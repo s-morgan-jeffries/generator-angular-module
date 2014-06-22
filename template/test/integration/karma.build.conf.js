@@ -76,7 +76,7 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
 
     junitReporter: {
-      outputFile: '../reports/unit-tests.xml'
+      outputFile: '../reports/integration-tests.xml'
     },
 
     reporters: ['progress', 'junit']

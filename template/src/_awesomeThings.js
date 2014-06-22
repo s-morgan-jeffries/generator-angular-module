@@ -18,7 +18,7 @@ angular.module('<%= _.camelize(moduleName) %>')
     ];
 
     return {
-      getAwesomeThings: function() {
+      getAwesomeThings: function () {
         return awesomeThingsList;
       }
     };
