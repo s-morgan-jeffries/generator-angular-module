@@ -1,4 +1,5 @@
 // Generated on <%= (new Date).toISOString().split('T')[0] %> using <%= pkg.name %> <%= pkg.version %>
+// jshint node: true
 'use strict';
 
 // # Globbing
@@ -128,6 +129,7 @@ module.exports = function (grunt) {
       scripts: {
         src: [
           '<%%= yeoman.devApp %>/scripts/{,*/}*.js',
+          '!<%%= yeoman.devApp %>/scripts/debug.js',
           'src/**/*.js'
         ]
       },
@@ -153,20 +155,40 @@ module.exports = function (grunt) {
 
     // Test settings
     karma: {
+      options: {
+        files: [
+          // Add jasmine-matchers
+          '../../node_modules/jasmine-expect/dist/jasmine-matchers.js',
+          // This is obviously the core angular module
+          '../../dev_app/bower_components/angular/angular.js',
+          // This is the angular-mocks module, which adds a couple of utility functions (module, inject, maybe others)
+          '../../dev_app/bower_components/angular-mocks/angular-mocks.js',
+          // Other dependencies
+          // '../../whatever.js',
+          // Utilities
+          '../../node_modules/lodash/dist/lodash.js',
+          // The source files for the modules
+          // Main module
+          '../../src/module.js',
+          '../../src/*.js',
+          // These are all the tests.
+          'spec/**/*.js'
+        ]
+      },
       unitCI: {
-        configFile: 'test/unit/karma.ci.conf.js',
+        configFile: 'test/unit/karma.unit.ci.conf.js',
         singleRun: true
       },
       unitBuild: {
-        configFile: 'test/unit/karma.build.conf.js',
+        configFile: 'test/unit/karma.unit.build.conf.js',
         singleRun: true
       },
       integrationCI: {
-        configFile: 'test/integration/karma.ci.conf.js',
+        configFile: 'test/integration/karma.integration.ci.conf.js',
         singleRun: true
       },
       integrationBuild: {
-        configFile: 'test/integration/karma.build.conf.js',
+        configFile: 'test/integration/karma.integration.build.conf.js',
         singleRun: true
       }
     },
